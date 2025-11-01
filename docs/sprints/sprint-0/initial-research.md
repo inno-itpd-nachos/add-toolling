@@ -1,3 +1,9 @@
+# Initial research
+
+Research before first customer meeting
+
+## Project
+
 ![project](./img/architecture-scoring.png)
 
 ### Similar Solutions and Tools
