@@ -458,8 +458,8 @@ Timeline visualizes trend lines for each NFR category, allowing user to identify
 
 - **Total Quality Attributes:** 16
 - **Total Test Cases:** 27
-- **High Priority Requirements:** 7 (QAS001, QAS002, QAS003, QAS004, QAS005, QAS012, QAS014, QAS015)
+- **High Priority Requirements:** 8 (QAS001, QAS002, QAS003, QAS004, QAS005, QAS012, QAS014, QAS015)
 - **Medium Priority Requirements:** 7 (QAS006, QAS007, QAS008, QAS009, QAS011, QAS013, QAS016)
-- **Low Priority Requirements:** 2 (QAS010)
+- **Low Priority Requirements:** 1 (QAS010)
 
 
