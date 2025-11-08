@@ -3,6 +3,9 @@ docs_dir: docs
 nav:
   - Home: index.md
   - Plan: plan.md
+  - Architecture:
+      - Intro: architecture/intro.md
+      - Tech: architecture/tech.md
   - Quality Requirements:
       - Quality Criteria: requirements/quality-requirements.md
   - AI Usage: ai-usage.md
@@ -14,3 +17,4 @@ nav:
       - Sprint 1:
           - Interview Script: sprints/sprint-1/script-interview.md
           - Team Meeting 1: sprints/sprint-1/team-meeting-1.md
+  
