@@ -20,7 +20,7 @@
 
 ## Section 1: Workflow & Usage Scenarios
 
-### Current Workflow
+<!-- ### Current Workflow
 1. **How do you currently document architecture?**
    - What tools do you use? (PlantUML, other UML tools, text documents?)
    - Do you have an concrete example? We might try to draw smt you would like to see?
@@ -34,11 +34,11 @@
 3. **Review and evaluation:**
    - How do you currently evaluate architecture quality?
    - Who reviews architecture? (Team leads, architects, stakeholders?)
-   - What criteria do you use for evaluation?
+   - What criteria do you use for evaluation? -->
 
 ## Section 2: Scoring & Evaluation
 
-### Scoring Formula Details
+<!-- ### Scoring Formula Details
 6. **Evolution theory matrix:**
    - Can you provide more details about the matrix structure?
    - What are the specific non-functional requirements (NFRs) you want to evaluate?
@@ -47,7 +47,7 @@
 
 7. **Scoring formula:**
    - Are there thresholds for "good" vs "bad" scores?
-   - How should scores be visualized? (Heatmap, numbers, color coding?)
+   - How should scores be visualized? (Heatmap, numbers, color coding?) -->
 
 8. **Component evaluation:**
    - How do you link NFRs to specific components in UML?
@@ -157,16 +157,16 @@ interesting!
     - How would you measure success?
     - What would adoption look like in your team/organization?
 
-### Next Steps
+<!-- ### Next Steps
 24. **Follow-up:**
     - Can we reach out with clarifying questions?
     - Would you be available for a demo/prototype review?
-    - Any additional stakeholders we should talk to?
+    - Any additional stakeholders we should talk to? -->
 
-## Closing
+<!-- ## Closing
 - Thank you for your time and detailed feedback
 - We'll synthesize this information and share a summary
-- Next steps: [To be determined]
+- Next steps: [To be determined] -->
 
 ---
 
