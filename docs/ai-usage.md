@@ -9,3 +9,8 @@
 
 - Making script for interview
     - Tool: Cursor
+- Help in writing
+    - Plan
+    - Contributing
+    - Requirements
+    - Architecture

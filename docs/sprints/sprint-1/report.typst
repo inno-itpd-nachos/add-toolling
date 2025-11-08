@@ -1,0 +1,62 @@
+// Define variables for the cover page
+#let title = "Plan"
+#let team-name = "Team Nachos"
+#let team-members = "Dmitry Batalov, d.batalov@innopolis.university, Legolass322, Lead
+Gleb Statkevich, g.statkevich@innopolis.university, glebkkevvich, Developer
+Aizat Murtazin, a.murtazin@innopolis.university, muitiiifruckt, Developer
+Marat Khalikov, m.khalikov@innopolis.university, QCold-bit, Developer"
+#let date = "8.11.2025"
+#let university = "Innopolis University"
+
+#let pagesLink = "https://inno-itpd-nachos.github.io/add-toolling"
+#let dashboardLink = "https://github.com/orgs/inno-itpd-nachos/projects/1"
+#let repoLink = "https://github.com/inno-itpd-nachos/add-toolling"
+#let repoTreeLink = repoLink + "/tree/main"
+#let docsLink = repoTreeLink + "/docs"
+#let sprintLink = docsLink + "/sprints/sprint-1"
+
+// Cover page
+#set page("a4")
+#set text(size: 14pt)
+#show link: underline
+
+// Right-aligned content for most elements
+#align(right)[
+  #v(15%)
+  #text("ITPD Assignment A2") \ \
+  #text(size: 24pt, weight: "bold", title) \
+  #text(size: 24pt, weight: "bold", "Architecture Scoring") \
+  #v(20%)
+  #text(weight: "bold", team-name + ":") \
+  #text(team-members)
+]
+
+// Bottom center for date and university
+#align(bottom + center)[
+  #text(date),
+  #text(university)
+]
+
+// Page break for the cover page
+#pagebreak()
+
+// Document structure with headers for the report content
+#set heading(numbering: "1.")
+
+= Report
+
+== Repository
+
+#link(repoLink)[Github] \
+#link(pagesLink)[Github pages] \
+
+== Overview
+
+During sprint 1 we:
+- validated requirements (#link(sprintLink)[script.md], #link(sprintLink)[meeting.md])
+- finalized #link(docsLink + "/requirements/quality-requirements.md")[quality requirements]
+- defined #link(docsLink + "/architecture/architecture.md")[architecture] and #link(docsLink + "/architecture/tech-stack.md")[tech-stack]
+- prepared a plan (#link(docsLink + "/plan.md")[plan.md], #link(repoTreeLink + "/CONTRIBUTING.md")[CONTRIBUTING.md])
+- prepared #link(pagesLink)[Github pages] and updated #link(repoTreeLink + "/README.md")[README]
+- created tasks on #link(dashboardLink)[dashboard] in github for the sprint 2
+- initialized vscode extension in our codebase

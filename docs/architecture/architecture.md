@@ -14,7 +14,7 @@
 
 ## Context Diagram
 
-![Context Diagram](../assets/context-diagram.png)
+![Context Diagram](./assets/context-diagram.png)
 
 ### System Context
 
@@ -56,7 +56,7 @@ The **UML Architecture Estimation Extension** operates within the Visual Studio 
 
 ## Use Case Diagram
 
-![Use Case Diagram](../assets/use-case-diagram.png)
+![Use Case Diagram](./assets/use-case-diagram.png)
 
 ### Actors
 
@@ -156,7 +156,7 @@ The **UML Architecture Estimation Extension** operates within the Visual Studio 
 
 ## Component Diagram
 
-![Component Diagram](../assets/component-diagram.png)
+![Component Diagram](./assets/component-diagram.png)
 
 ### Components and Their Responsibilities
 
@@ -336,7 +336,7 @@ User Command → Command Handler → Parser → Analyzer → Estimator → Repor
 
 ### User Story 1: Generate Architecture Estimation
 
-![Sequence Diagram - User Story 1](../assets/sequence-user-story-1.png)
+![Sequence Diagram - User Story 1](./assets/sequence-user-story-1.png)
 
 **Title**: Developer generates estimation from an existing diagram file
 
@@ -355,7 +355,7 @@ User Command → Command Handler → Parser → Analyzer → Estimator → Repor
 
 ### User Story 2: Export Estimation Report
 
-![Sequence Diagram - User Story 2](../assets/sequence-user-story-2.png)
+![Sequence Diagram - User Story 2](./assets/sequence-user-story-2.png)
 
 **Title**: Project Manager exports estimation report for stakeholders
 
@@ -374,7 +374,7 @@ User Command → Command Handler → Parser → Analyzer → Estimator → Repor
 
 ### Quality Attribute Scenario 1: Performance - Large Diagram Parsing
 
-![Sequence Diagram - Performance Quality Scenario](../assets/sequence-quality-performance.png)
+![Sequence Diagram - Performance Quality Scenario](./assets/sequence-quality-performance.png)
 
 **Quality Attribute**: Performance
 
@@ -401,7 +401,7 @@ User Command → Command Handler → Parser → Analyzer → Estimator → Repor
 
 ### Quality Attribute Scenario 2: Usability - First-Time User Experience
 
-![Sequence Diagram - Usability Quality Scenario](../assets/sequence-quality-usability.png)
+![Sequence Diagram - Usability Quality Scenario](./assets/sequence-quality-usability.png)
 
 **Quality Attribute**: Usability
 
