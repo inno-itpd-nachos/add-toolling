@@ -1,7 +1,8 @@
-site_name: 'Architecture Scoring Docs'
+site_name: Architecture Scoring Docs
 docs_dir: docs
 nav:
-  - Главное описание: plan.md
+  - Главная: index.md
+  - План: plan.md
   - Quality Requirements:
       - Критерии качества: requirements/quality-requirements.md
   - AI Usage: ai-usage.md
@@ -11,5 +12,5 @@ nav:
           - Meeting: sprints/sprint-0/meeting.md
           - Report: sprints/sprint-0/report.md
       - Sprint 1:
-          - Script Intervieww: sprints/sprint-1/script-interview.md
+          - Script Interview: sprints/sprint-1/script-interview.md
           - Team Meeting 1: sprints/sprint-1/team-meeting-1.md
