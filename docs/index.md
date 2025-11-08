@@ -4,8 +4,8 @@ Welcome to the project documentation site. Here you’ll find a quick map of the
 
 - [Plan](plan.md) — project plan, milestones, and deliverables.
 - [Quality Requirements](requirements/quality-requirements.md) — quality criteria and acceptance rules.
-- [Architecture → Intro](architecture/intro.md) — overview of the system’s architecture.
-- [Architecture → Tech](architecture/tech.md) — technologies, stack, and key decisions.
+- [Architecture → Overview](architecture/architecture.md) — overview of the system’s architecture.
+- [Architecture → Tech Stack](architecture/tech-stack.md) — technologies, stack, and key decisions.
 - [Sprint 0: Initial Research](sprints/sprint-0/initial-research.md) — early exploration and findings.
 - [AI Usage](ai-usage.md) — how AI is applied within the project.
 
