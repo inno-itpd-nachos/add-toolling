@@ -14,8 +14,39 @@
   "contributes": {
     "commands": [
       {
-        "command": "addtool.helloWorld",
-        "title": "Hello World"
+        "command": "excalidraw.newFile",
+        "title": "EX: New File"
+      }
+    ],
+    "customEditors": [
+      {
+        "viewType": "editor.addtable",
+        "displayName": "Table Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.addt"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "editor.excalidraw",
+        "displayName": "Excalidraw",
+        "priority": "default",
+        "selector": [
+          {
+            "filenamePattern": "*.excalidraw"
+          },
+          {
+            "filenamePattern": "*.excalidraw.json"
+          },
+          {
+            "filenamePattern": "*.excalidraw.svg"
+          },
+          {
+            "filenamePattern": "*.excalidraw.png"
+          }
+        ]
       }
     ]
   },
