@@ -1,13 +1,15 @@
 site_name: Architecture Scoring Docs
 docs_dir: docs
+
 nav:
   - Home: index.md
   - Plan: plan.md
   - Architecture:
       - Overview: architecture/architecture.md
       - Tech Stack: architecture/tech-stack.md
-  - Quality Requirements:
-      - Quality Criteria: requirements/quality-requirements.md
+  - Requirements:
+      - Quality Requirements: requirements/quality-requirements.md
+      - Constraints: requirements/constraints.md
   - AI Usage: ai-usage.md
   - Sprints:
       - Sprint 0:
@@ -16,4 +18,5 @@ nav:
           - Report: sprints/sprint-0/report.md
       - Sprint 1:
           - Interview Script: sprints/sprint-1/script.md
-          - Team Meeting 1: sprints/sprint-1/meeting.md
+          - Meeting: sprints/sprint-1/meeting.md
+          - Report (PDF): sprints/sprint-1/report.pdf
