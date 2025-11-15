@@ -25,7 +25,7 @@
   - Architecture documentation with diagrams (component, context, sequence, use case)
   - Technical stack documentation
   - Quality requirements and constraints
-  - Sprint reports and meeting notes (Sprint 0, 1, 2)
+  - Sprint reports and meeting notes in `docs/sprints` directory
   - Contributing guidelines
   - AI usage guidelines
 - MkDocs-based documentation site with GitHub Pages deployment
