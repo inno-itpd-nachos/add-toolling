@@ -40,7 +40,7 @@
 | QAS005 | Reliability | High | High | High | Data loss prevention |
 | QAS006 | Usability | Medium | Medium | High | Improves adoption |
 | QAS007 | Reliability | Medium | Medium | Medium | File change detection |
-| QAS008 | Functional Suitability | Medium | Medium | High | Project customization |
+| QAS008 | Functional Suitability | High | High | High | Project customization |
 | QAS009 | Reliability | Medium | High | Medium | Stability and resilience |
 | QAS010 | Maintainability | Low | Low | High | Future extensibility |
 | QAS011 | Compatibility | Medium | Medium | High | Broad platform support |
@@ -51,6 +51,61 @@
 | QAS016 | Usability | Medium | Medium | Medium | Trend visualization |
 
 ---
+### Quality Attribute Scenario Priority Rationale
+
+#### High Priority Scenarios
+
+- **QAS001 – Extension Activation Time**  
+  Fast activation is critical for user experience: architects open diagrams frequently during design sessions, and long startup times would make the tool unusable in daily work.
+
+- **QAS002 – PlantUML Component Parsing Speed**  
+  Parsing speed directly affects the feedback loop when architects modify diagrams. Slow parsing would block the main workflow of “change diagram → see updated matrix”.
+
+- **QAS003 – Matrix Evaluation Efficiency**  
+  Filling the matrix is the primary user task. If this interaction is slow or clumsy, users will avoid the tool regardless of how powerful the analysis is.
+
+- **QAS004 – Correct Component Extraction**  
+  The core promise of the tool is to reflect the architecture as it is defined in the diagram. Wrong or incomplete extraction would invalidate all further analysis and quality scoring.
+
+- **QAS005 – Data Persistence and Recovery**  
+  Losing evaluation data is unacceptable: architects invest significant time filling the matrix. Reliable persistence is critical for trust in the tool.
+
+- **QAS008 – NFR Customization**  
+  Different projects and teams work with different sets of quality attributes (“stressors”). The customer explicitly requested configurable attributes, so being able to add and remove NFRs is essential for adoption.
+
+- **QAS012 – Project Data Isolation**  
+  The tool operates on local project workspaces. Mixing data between projects would be a serious security and confidentiality concern, especially when multiple teams and repositories are involved.
+
+- **QAS014 – Version Comparison via Git**  
+  Comparing architecture versions is one of the main goals of the tool and a key differentiator. Without reliable version comparison, the “architecture evolution” concept cannot be demonstrated.
+
+- **QAS015 – Quality Change Calculation**  
+  Stakeholders want not only to see structural changes but also to understand how quality attributes improve or degrade between versions. Calculating and visualizing quality deltas per NFR is central to the project’s value.
+
+#### Medium Priority Scenarios
+
+- **QAS006 – Interface Clarity and Intuitiveness**  
+  A clear UI is important for adoption, but the target users are software architects who are willing to tolerate a slightly rough UI in an MVP as long as core functionality works.
+
+- **QAS007 – Dynamic File Update Handling**  
+  Automatic updates on file save improve usability, but in early versions manual refresh could be an acceptable workaround if needed.
+
+- **QAS009 – Error Handling and Recovery**  
+  Robust error handling improves stability and user trust, but basic protection against crashes is already covered by higher-priority scenarios.
+
+- **QAS011 – VSCode Version Support**  
+  Supporting several VSCode versions is useful, but the main focus is on functionality rather than broad marketplace coverage in the first iterations.
+
+- **QAS013 – Cross-Platform Compatibility**  
+  Multi-OS support is important for the team, but initial development can focus on one or two primary platforms and expand later.
+
+- **QAS016 – Version Timeline Visualization**  
+  Visual timeline of quality over many versions is valuable, but it builds on top of version comparison and quality change calculation. It can be added after the core diff and scoring features are stable.
+
+#### Low Priority Scenarios
+
+- **QAS010 – Parser Modularity**  
+  Parser extensibility is important for long-term evolution (supporting new diagram formats), but the customer is currently focused on PlantUML and component diagrams. A clean design should not block future extension, but implementing multiple parsers is not needed for the MVP.
 
 ## Performance
 
@@ -458,8 +513,8 @@ Timeline visualizes trend lines for each NFR category, allowing user to identify
 
 - **Total Quality Attributes:** 16
 - **Total Test Cases:** 27
-- **High Priority Requirements:** 8 (QAS001, QAS002, QAS003, QAS004, QAS005, QAS012, QAS014, QAS015)
-- **Medium Priority Requirements:** 7 (QAS006, QAS007, QAS008, QAS009, QAS011, QAS013, QAS016)
+- **High Priority Requirements:** 9 (QAS001, QAS002, QAS003, QAS004, QAS005,QAS008, QAS012, QAS014, QAS015)
+- **Medium Priority Requirements:** 6 (QAS006, QAS007, QAS009, QAS011, QAS013, QAS016)
 - **Low Priority Requirements:** 1 (QAS010)
 
 
