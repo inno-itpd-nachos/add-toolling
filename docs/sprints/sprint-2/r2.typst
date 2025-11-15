@@ -1,0 +1,55 @@
+// Define variables for the cover page
+#let assignment-reference = "ITPD Assignment R2"
+#let title = "Review on Team Crackers of sprint-1"
+#let team-name = "Team Nachos"
+#let team-members = "Dmitry Batalov, d.batalov@innopolis.university, Legolass322, Lead
+Gleb Statkevich, g.statkevich@innopolis.university, glebkkevvich, Developer
+Aizat Murtazin, a.murtazin@innopolis.university, muitiiifruckt, Developer
+Marat Khalikov, m.khalikov@innopolis.university, QCold-bit, Developer"
+#let date = "15.11.2025"
+#let university = "Innopolis University"
+
+#let pagesLink = "https://inno-itpd-nachos.github.io/add-toolling"
+#let dashboardLink = "https://github.com/orgs/inno-itpd-nachos/projects/1"
+#let repoLink = "https://github.com/inno-itpd-nachos/add-toolling"
+#let repoTreeLink = repoLink + "/tree/main"
+#let docsLink = repoTreeLink + "/docs"
+#let sprintLink = docsLink + "/sprints/sprint-1"
+
+// Cover page
+#set page("a4")
+#set text(size: 14pt)
+#show link: underline
+
+// Right-aligned content for most elements
+#align(right)[
+  #v(15%)
+  #text(assignment-reference) \ \
+  #text(size: 24pt, weight: "bold", title) \
+  #text(size: 24pt, weight: "bold", "Architecture Scoring") \
+  #v(20%)
+  #text(weight: "bold", team-name + ":") \
+  #text(team-members)
+]
+
+// Bottom center for date and university
+#align(bottom + center)[
+  #text(date),
+  #text(university)
+]
+
+// Page break for the cover page
+#pagebreak()
+
+// Document structure with headers for the report content
+#set heading(numbering: "1.")
+
+= Report
+
+Score: 99
+
+I added only one comment on sprint-1 and report. Report is almost completely covering points from the assignment. Probably event too much.
+
+For valueable misses: I cannot see github project. Either its hidden, either its not provided. (I assume its hidden, since its shown in the report) = -1 point
+
+Improvement recommendations: provide links to attachments in report as well
