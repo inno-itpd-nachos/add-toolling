@@ -455,3 +455,14 @@ User Command → Command Handler → Parser → Analyzer → Estimator → Repor
 
 ---
 
+## Design decisions
+
+This section describes the most relevant design decisions that shaped the current architecture of the Architecture Scoring Tool.
+
+| Driver(s)                          | Decision                                                        | Rationale                                                                                                                                              | Discarded alternatives                                                                                   |
+|-----------------------------------|-----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| CON-1, CON-2, QAS002, QAS004      | Represent architecture as text-based diagrams (PlantUML) stored in Git | Keeps architecture “as code”: diagrams are human-readable, version-controlled, and easy to parse and diff; enables automation and integration with existing dev workflows. | Graphical diagram editors producing only images (e.g. draw.io PNGs) – hard to diff, parse, and maintain in Git. |
+| CON-5, QAS001, QAS007, QAS013     | Deliver the tool as a local IDE extension / CLI rather than a standalone cloud service | Architects can run the tool directly on their machines without extra infrastructure; simplifies setup for the course project and avoids backend/DB operations. | Full SaaS web application with hosted backend and database – higher operational complexity and not needed for MVP. |
+| QAS003, QAS004, QAS007           | Automatically extract components from diagrams instead of manual entry | Reduces manual work for architects and ensures the scoring matrix always reflects the actual architecture model defined in the diagram text.            | Manual matrix editing in spreadsheets or static forms – error-prone and quickly diverges from the real architecture. |
+| CON-3, CON-4, QAS003, QAS008, QAS015 | Make evaluation attributes (“stressors”) and scoring formulas configurable by the user | Different teams use different quality models; configuration allows reuse of the tool across projects without code changes and supports experimentation. | Hard-coded set of NFR attributes and fixed scoring formula – would require code changes for every new project or quality model. |
+| CON-5, CON-7, QAS014, QAS016     | Use Git history as the primary source of architecture versions and comparisons | Git already stores all text diagrams; leveraging it avoids a separate versioning database and aligns with “Architecture as Code” and course constraints. | Custom version database or external configuration store – more moving parts, additional persistence to design and operate. |
