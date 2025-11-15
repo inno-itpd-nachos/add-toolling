@@ -65,6 +65,7 @@ Where `<type>` can be:
 - `refactor` – internal refactoring without behavior change
 
 ### Git diagram (Mermaid)
+```mermaid
 gitGraph
     commit
     branch feature
@@ -73,7 +74,7 @@ gitGraph
     checkout main
     merge feature
     commit
-
+```
 ### Issues and pull requests
 
 - **Issues**  
