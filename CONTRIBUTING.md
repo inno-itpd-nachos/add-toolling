@@ -54,7 +54,7 @@ To keep `main` stable:
 Use short, descriptive messages in the following form:
 
 
-<type>: <short description>
+```<type>: <short description>```
 
 Where `<type>` can be:
 
