@@ -14,8 +14,39 @@
   "contributes": {
     "commands": [
       {
-        "command": "addtool.helloWorld",
-        "title": "Hello World"
+        "command": "excalidraw.newFile",
+        "title": "EX: New File"
+      }
+    ],
+    "customEditors": [
+      {
+        "viewType": "editor.addtable",
+        "displayName": "Table Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.addt"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "editor.excalidraw",
+        "displayName": "Excalidraw",
+        "priority": "default",
+        "selector": [
+          {
+            "filenamePattern": "*.excalidraw"
+          },
+          {
+            "filenamePattern": "*.excalidraw.json"
+          },
+          {
+            "filenamePattern": "*.excalidraw.svg"
+          },
+          {
+            "filenamePattern": "*.excalidraw.png"
+          }
+        ]
       }
     ]
   },
@@ -34,16 +65,18 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.105.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "@typescript-eslint/eslint-plugin": "^8.45.0",
-    "@typescript-eslint/parser": "^8.45.0",
-    "eslint": "^9.36.0",
-    "esbuild": "^0.25.10",
+    "@types/vscode": "^1.105.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.27.0",
+    "eslint": "^9.39.1",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.46.3"
+  },
+  "dependencies": {
+    "js-base64": "^3.7.8"
   }
 }

@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--vscode-font-family);
+  color: var(--vscode-foreground);
+  background-color: var(--vscode-editor-background);
+  padding: 20px;
+}
+
+.toolbar {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+button {
+  padding: 6px 12px;
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+button:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.table-container {
+  overflow-x: auto;
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+th,
+td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+th {
+  background-color: var(--vscode-editor-lineHighlightBackground);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+tr:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 4px 8px;
+  background-color: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 2px;
+  font-family: var(--vscode-font-family);
+  font-size: 13px;
+}
+
+input:focus,
+textarea:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+.add-column-input {
+  display: inline-block;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.cell-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.delete-btn {
+  background-color: var(--vscode-inputValidation-errorBackground);
+  color: var(--vscode-errorForeground);
+  padding: 2px 6px;
+  font-size: 11px;
+}
+
+.delete-btn:hover {
+  background-color: var(--vscode-inputValidation-errorBorder);
+}
