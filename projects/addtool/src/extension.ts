@@ -1,13 +1,11 @@
-import * as vscode from "vscode";
-import { registerCommands } from "./commands";
-import { ExcalidrawEditorProvider } from "./editor";
-import { ExcalidrawUriHandler } from "./uri-handler";
-import { TableEditorProvider } from "./table-editor";
+import * as vscode from "vscode"
+import { registerCommands } from "extension/commands"
+import { AddtEditorProvider } from "extension/editor"
+import { AddtUriHandler } from "extension/uri-handler"
 
 export async function activate(context: vscode.ExtensionContext) {
   // Register our custom editor providers
-  context.subscriptions.push(await ExcalidrawEditorProvider.register(context));
-  context.subscriptions.push(ExcalidrawUriHandler.register());
-  context.subscriptions.push(await TableEditorProvider.register(context));
-  registerCommands(context);
+  context.subscriptions.push(await AddtEditorProvider.register(context))
+  context.subscriptions.push(AddtUriHandler.register())
+  registerCommands(context)
 }
