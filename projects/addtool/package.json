@@ -10,41 +10,31 @@
     "Other"
   ],
   "activationEvents": [],
-  "main": "./dist/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "excalidraw.newFile",
+        "command": "addtool.newFile",
         "title": "EX: New File"
       }
     ],
     "customEditors": [
       {
-        "viewType": "editor.addtable",
-        "displayName": "Table Editor",
-        "selector": [
-          {
-            "filenamePattern": "*.addt"
-          }
-        ],
-        "priority": "default"
-      },
-      {
-        "viewType": "editor.excalidraw",
-        "displayName": "Excalidraw",
+        "viewType": "editor.addtool",
+        "displayName": "ADDTool",
         "priority": "default",
         "selector": [
           {
-            "filenamePattern": "*.excalidraw"
+            "filenamePattern": "*.addt"
           },
           {
-            "filenamePattern": "*.excalidraw.json"
+            "filenamePattern": "*.addt.json"
           },
           {
-            "filenamePattern": "*.excalidraw.svg"
+            "filenamePattern": "*.addt.svg"
           },
           {
-            "filenamePattern": "*.excalidraw.png"
+            "filenamePattern": "*.addt.png"
           }
         ]
       }

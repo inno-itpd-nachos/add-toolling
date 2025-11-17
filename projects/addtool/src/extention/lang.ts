@@ -13,4 +13,4 @@ export const languageMap = {
   tr: "tr-TR",
   pl: "pl-PL",
   cs: "cs-CS",
-};
+}
