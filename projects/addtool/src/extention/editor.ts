@@ -1,143 +1,143 @@
-import * as vscode from "vscode";
-import * as path from "path";
-import { Base64 } from "js-base64";
+import * as vscode from "vscode"
+import * as path from "path"
+import { Base64 } from "js-base64"
 
-import { ExcalidrawDocument } from "./document";
-import { languageMap } from "./lang";
-import { showEditor } from "./commands";
+import { AddtDocument } from "./document"
+import { languageMap } from "./lang"
+import { showEditor } from "./commands"
 
-export class ExcalidrawEditorProvider
-  implements vscode.CustomEditorProvider<ExcalidrawDocument>
+export class AddtEditorProvider
+  implements vscode.CustomEditorProvider<AddtDocument>
 {
   public static async register(
     context: vscode.ExtensionContext
   ): Promise<vscode.Disposable> {
-    const provider = new ExcalidrawEditorProvider(context);
+    const provider = new AddtEditorProvider(context)
     const providerRegistration = vscode.window.registerCustomEditorProvider(
-      ExcalidrawEditorProvider.viewType,
+      AddtEditorProvider.viewType,
       provider,
       {
         supportsMultipleEditorsPerDocument: false,
         webviewOptions: { retainContextWhenHidden: true },
       }
-    );
+    )
 
-    ExcalidrawEditorProvider.migrateLegacyLibraryItems(context);
+    AddtEditorProvider.migrateLegacyLibraryItems(context)
 
-    return providerRegistration;
+    return providerRegistration
   }
 
   private static migrateLegacyLibraryItems(context: vscode.ExtensionContext) {
-    const libraryItems = context.globalState.get("libraryItems");
+    const libraryItems = context.globalState.get("libraryItems")
     if (!libraryItems) {
-      return;
+      return
     }
     context.globalState
       .update(
         "library",
         JSON.stringify({
-          type: "excalidrawlib",
+          type: "AddtoolLib",
           version: 2,
-          source:
-            "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
+          // todo
+          source: "",
           libraryItems,
         })
       )
       .then(() => {
-        context.globalState.update("libraryItems", undefined);
-      });
+        context.globalState.update("libraryItems", undefined)
+      })
   }
 
-  private static readonly viewType = "editor.excalidraw";
+  private static readonly viewType = "editor.addtool"
 
   constructor(private readonly context: vscode.ExtensionContext) {}
 
   public async resolveCustomEditor(
-    document: ExcalidrawDocument,
+    document: AddtDocument,
     webviewPanel: vscode.WebviewPanel
   ) {
-    const editor = new ExcalidrawEditor(
+    const editor = new AddtEditor(
       document,
       webviewPanel.webview,
       this.context
-    );
-    const editorDisposable = await editor.setupWebview();
+    )
+    const editorDisposable = await editor.setupWebview()
 
     webviewPanel.onDidDispose(() => {
-      editorDisposable.dispose();
-    });
+      editorDisposable.dispose()
+    })
   }
 
   private readonly _onDidChangeCustomDocument = new vscode.EventEmitter<
-    vscode.CustomDocumentContentChangeEvent<ExcalidrawDocument>
-  >();
+    vscode.CustomDocumentContentChangeEvent<AddtDocument>
+  >()
   public readonly onDidChangeCustomDocument =
-    this._onDidChangeCustomDocument.event;
+    this._onDidChangeCustomDocument.event
 
   async backupCustomDocument(
-    document: ExcalidrawDocument,
+    document: AddtDocument,
     context: vscode.CustomDocumentBackupContext
   ): Promise<vscode.CustomDocumentBackup> {
-    return document.backup(context.destination);
+    return document.backup(context.destination)
   }
 
   // TODO: Backup Support
   async openCustomDocument(
     uri: vscode.Uri,
     openContext: vscode.CustomDocumentOpenContext
-  ): Promise<ExcalidrawDocument> {
-    let content: Uint8Array;
+  ): Promise<AddtDocument> {
+    let content: Uint8Array
     if (uri.scheme === "untitled") {
       content = new TextEncoder().encode(
-        JSON.stringify({ type: "excalidraw", elements: [] })
-      );
+        JSON.stringify({ type: "Addt", elements: [] })
+      )
     } else {
       content = await vscode.workspace.fs.readFile(
         openContext.backupId ? vscode.Uri.parse(openContext.backupId) : uri
-      );
+      )
     }
-    const document = new ExcalidrawDocument(uri, content);
+    const document = new AddtDocument(uri, content)
 
     const onDidDocumentChange = document.onDidContentChange(() => {
-      this._onDidChangeCustomDocument.fire({ document });
-    });
+      this._onDidChangeCustomDocument.fire({ document })
+    })
 
     document.onDidDispose(() => {
-      onDidDocumentChange.dispose();
-    });
+      onDidDocumentChange.dispose()
+    })
 
-    return document;
+    return document
   }
 
-  revertCustomDocument(document: ExcalidrawDocument): Thenable<void> {
-    return document.revert();
+  revertCustomDocument(document: AddtDocument): Thenable<void> {
+    return document.revert()
   }
 
-  saveCustomDocument(document: ExcalidrawDocument): Thenable<void> {
-    return document.save();
+  saveCustomDocument(document: AddtDocument): Thenable<void> {
+    return document.save()
   }
 
   async saveCustomDocumentAs(
-    document: ExcalidrawDocument,
+    document: AddtDocument,
     destination: vscode.Uri
   ) {
-    await document.saveAs(destination);
+    await document.saveAs(destination)
   }
 }
 
-export class ExcalidrawEditor {
+export class AddtEditor {
   // Allows to pass events between editors
-  private static _onDidChangeLibrary = new vscode.EventEmitter<string>();
+  private static _onDidChangeLibrary = new vscode.EventEmitter<string>()
   private static onDidChangeLibrary =
-    ExcalidrawEditor._onDidChangeLibrary.event;
+    AddtEditor._onDidChangeLibrary.event
   private static _onLibraryImport = new vscode.EventEmitter<{
-    library: string;
-  }>();
-  private static onLibraryImport = ExcalidrawEditor._onLibraryImport.event;
-  private textDecoder = new TextDecoder();
+    library: string
+  }>()
+  private static onLibraryImport = AddtEditor._onLibraryImport.event
+  private textDecoder = new TextDecoder()
 
   constructor(
-    readonly document: ExcalidrawDocument,
+    readonly document: AddtDocument,
     readonly webview: vscode.Webview,
     readonly context: vscode.ExtensionContext
   ) {}
@@ -146,7 +146,7 @@ export class ExcalidrawEditor {
     return (
       this.document.uri.scheme === "git" ||
       this.document.uri.scheme === "conflictResolution"
-    );
+    )
   }
 
   public async setupWebview() {
@@ -154,106 +154,106 @@ export class ExcalidrawEditor {
     // Receive message from the webview.
     this.webview.options = {
       enableScripts: true,
-    };
+    }
 
-    let libraryUri = await this.getLibraryUri();
+    let libraryUri = await this.getLibraryUri()
 
     const onDidReceiveMessage = this.webview.onDidReceiveMessage(
       async (msg) => {
         switch (msg.type) {
           case "library-change":
-            const library = msg.library;
-            await this.saveLibrary(library, libraryUri);
-            ExcalidrawEditor._onDidChangeLibrary.fire(library);
-            break;
+            const library = msg.library
+            await this.saveLibrary(library, libraryUri)
+            AddtEditor._onDidChangeLibrary.fire(library)
+            break
           case "change":
-            await this.document.update(new Uint8Array(msg.content));
-            break;
+            await this.document.update(new Uint8Array(msg.content))
+            break
           case "link-open":
-            await openLink(vscode.Uri.parse(msg.url), this.document.uri);
-            break;
+            await openLink(vscode.Uri.parse(msg.url), this.document.uri)
+            break
           case "error":
-            vscode.window.showErrorMessage(msg.content);
-            break;
+            vscode.window.showErrorMessage(msg.content)
+            break
           case "info":
-            vscode.window.showInformationMessage(msg.content);
-            break;
+            vscode.window.showInformationMessage(msg.content)
+            break
         }
       },
       this
-    );
+    )
 
     const onDidChangeThemeConfiguration =
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (!e.affectsConfiguration("excalidraw.theme", this.document.uri)) {
-          return;
+        if (!e.affectsConfiguration("addt.theme", this.document.uri)) {
+          return
         }
         this.webview.postMessage({
           type: "theme-change",
           theme: this.getTheme(),
-        });
-      }, this);
+        })
+      }, this)
 
     vscode.workspace.onDidChangeConfiguration((e) => {
-      if (!e.affectsConfiguration("excalidraw.language", this.document.uri)) {
-        return;
+      if (!e.affectsConfiguration("addt.language", this.document.uri)) {
+        return
       }
       this.webview.postMessage({
         type: "language-change",
         langCode: this.getLanguage(),
-      });
-    }, this);
+      })
+    }, this)
 
     const onDidChangeEmbedConfiguration =
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (!e.affectsConfiguration("excalidraw.image", this.document.uri)) {
-          return;
+        if (!e.affectsConfiguration("addt.image", this.document.uri)) {
+          return
         }
         this.webview.postMessage({
           type: "image-params-change",
           imageParams: this.getImageParams(),
-        });
-      }, this);
+        })
+      }, this)
 
     const onDidChangeLibraryConfiguration =
       vscode.workspace.onDidChangeConfiguration(async (e) => {
         if (
           !e.affectsConfiguration(
-            "excalidraw.workspaceLibraryPath",
+            "addt.workspaceLibraryPath",
             this.document.uri
           )
         ) {
-          return;
+          return
         }
 
-        libraryUri = await this.getLibraryUri();
-        const library = await this.loadLibrary(libraryUri);
+        libraryUri = await this.getLibraryUri()
+        const library = await this.loadLibrary(libraryUri)
         this.webview.postMessage({
           type: "library-change",
           library,
           merge: false,
-        });
-      });
+        })
+      })
 
-    const onLibraryImport = ExcalidrawEditor.onLibraryImport(
+    const onLibraryImport = AddtEditor.onLibraryImport(
       async ({ library }) => {
         this.webview.postMessage({
           type: "library-change",
           library,
           merge: true,
-        });
+        })
       }
-    );
+    )
 
-    const onDidChangeLibrary = ExcalidrawEditor.onDidChangeLibrary(
+    const onDidChangeLibrary = AddtEditor.onDidChangeLibrary(
       (library) => {
         this.webview.postMessage({
           type: "library-change",
           library,
           merge: false,
-        });
+        })
       }
-    );
+    )
 
     this.webview.html = await this.buildHtmlForWebview({
       content: Array.from(this.document.content),
@@ -264,88 +264,88 @@ export class ExcalidrawEditor {
       imageParams: this.getImageParams(),
       langCode: this.getLanguage(),
       name: this.extractName(this.document.uri),
-    });
+    })
 
     return new vscode.Disposable(() => {
-      onDidReceiveMessage.dispose();
-      onDidChangeThemeConfiguration.dispose();
-      onLibraryImport.dispose();
-      onDidChangeLibraryConfiguration.dispose();
-      onDidChangeLibrary.dispose();
-      onDidChangeEmbedConfiguration.dispose();
-    });
+      onDidReceiveMessage.dispose()
+      onDidChangeThemeConfiguration.dispose()
+      onLibraryImport.dispose()
+      onDidChangeLibraryConfiguration.dispose()
+      onDidChangeLibrary.dispose()
+      onDidChangeEmbedConfiguration.dispose()
+    })
   }
 
   private getImageParams() {
-    return vscode.workspace.getConfiguration("excalidraw").get("image");
+    return vscode.workspace.getConfiguration("addt").get("image")
   }
 
   private getLanguage() {
     return (
-      vscode.workspace.getConfiguration("excalidraw").get("language") ||
+      vscode.workspace.getConfiguration("addt").get("language") ||
       languageMap[vscode.env.language as keyof typeof languageMap]
-    );
+    )
   }
 
   private getTheme() {
     return vscode.workspace
-      .getConfiguration("excalidraw")
-      .get("theme", "light");
+      .getConfiguration("addt")
+      .get("theme", "light")
   }
 
   public extractName(uri: vscode.Uri) {
-    const name = path.parse(uri.fsPath).name;
-    return name.endsWith(".excalidraw") ? name.slice(0, -11) : name;
+    const name = path.parse(uri.fsPath).name
+    return name.endsWith(".addt") ? name.slice(0, -5) : name
   }
 
   public async getLibraryUri() {
     const libraryPath = await vscode.workspace
-      .getConfiguration("excalidraw")
-      .get<string>("workspaceLibraryPath");
-    const workspaceFolders = vscode.workspace.workspaceFolders;
+      .getConfiguration("addt")
+      .get<string>("workspaceLibraryPath")
+    const workspaceFolders = vscode.workspace.workspaceFolders
     if (!libraryPath || !workspaceFolders) {
-      return;
+      return
     }
 
     const fileWorkspace = getFileWorkspaceFolder(
       this.document.uri,
       workspaceFolders as vscode.WorkspaceFolder[]
-    );
+    )
     if (!fileWorkspace) {
-      return;
+      return
     }
 
-    return vscode.Uri.joinPath(fileWorkspace.uri, libraryPath);
+    return vscode.Uri.joinPath(fileWorkspace.uri, libraryPath)
   }
 
   public static importLibrary(library: string) {
-    this._onLibraryImport.fire({ library });
+    this._onLibraryImport.fire({ library })
   }
 
   public async loadLibrary(libraryUri?: vscode.Uri) {
     if (!libraryUri) {
-      return this.context.globalState.get<string>("library");
+      return this.context.globalState.get<string>("library")
     }
     try {
-      const libraryContent = await vscode.workspace.fs.readFile(libraryUri);
-      return this.textDecoder.decode(libraryContent);
+      const libraryContent = await vscode.workspace.fs.readFile(libraryUri)
+      return this.textDecoder.decode(libraryContent)
     } catch (e) {
-      vscode.window.showErrorMessage(`Failed to load library: ${e}`);
-      return this.context.globalState.get<string>("library");
+      vscode.window.showErrorMessage(`Failed to load library: ${e}`)
+      return this.context.globalState.get<string>("library")
     }
   }
 
   public async saveLibrary(library: string, libraryUri?: vscode.Uri) {
     if (!libraryUri) {
-      return this.context.globalState.update("library", library);
+      return this.context.globalState.update("library", library)
     }
     try {
       await vscode.workspace.fs.writeFile(
         libraryUri,
         new TextEncoder().encode(library)
-      );
+      )
     } catch (e) {
-      await vscode.window.showErrorMessage(`Failed to save library: ${e}`);
+      await vscode.window.showErrorMessage(`Failed to save library: ${e}`)
     }
   }
 
@@ -353,42 +353,42 @@ export class ExcalidrawEditor {
     const webviewUri = vscode.Uri.joinPath(
       this.context.extensionUri,
       "webview",
-      "dist"
-    );
+      "out"
+    )
     const content = await vscode.workspace.fs.readFile(
       vscode.Uri.joinPath(webviewUri, "index.html")
-    );
-    let html = this.textDecoder.decode(content);
+    )
+    let html = this.textDecoder.decode(content)
 
     html = html.replace(
-      "{{data-excalidraw-config}}",
+      "{{data-addt-config}}",
       Base64.encode(JSON.stringify(config))
-    );
+    )
 
     html = html.replace(
-      "{{excalidraw-asset-path}}",
+      "{{addt-asset-path}}",
       `${this.webview.asWebviewUri(webviewUri).toString()}/`
-    );
+    )
 
-    return this.fixLinks(html, webviewUri);
+    return this.fixLinks(html, webviewUri)
   }
   private fixLinks(document: string, documentUri: vscode.Uri): string {
     return document.replace(
       new RegExp("((?:src|href)=['\"])(.*?)(['\"])", "gmi"),
       (subString: string, p1: string, p2: string, p3: string): string => {
-        const lower = p2.toLowerCase();
+        const lower = p2.toLowerCase()
         if (
           p2.startsWith("#") ||
           lower.startsWith("http://") ||
           lower.startsWith("https://")
         ) {
-          return subString;
+          return subString
         }
-        const newUri = vscode.Uri.joinPath(documentUri, p2);
-        const newUrl = [p1, this.webview.asWebviewUri(newUri), p3].join("");
-        return newUrl;
+        const newUri = vscode.Uri.joinPath(documentUri, p2)
+        const newUrl = [p1, this.webview.asWebviewUri(newUri), p3].join("")
+        return newUrl
       }
-    );
+    )
   }
 }
 
@@ -396,50 +396,50 @@ function getFileWorkspaceFolder(
   uri: vscode.Uri,
   workspaceFolders: vscode.WorkspaceFolder[]
 ): vscode.WorkspaceFolder | undefined {
-  const parts = uri.path.split(path.sep).slice(0, -1);
+  const parts = uri.path.split(path.sep).slice(0, -1)
   while (parts.length > 0) {
-    const joined = parts.join(path.sep);
-    const folder = workspaceFolders.find((f) => f.uri.path === joined);
+    const joined = parts.join(path.sep)
+    const folder = workspaceFolders.find((f) => f.uri.path === joined)
     if (folder) {
-      return folder;
+      return folder
     }
-    parts.pop();
+    parts.pop()
   }
 }
 
 async function openLink(uri: vscode.Uri, source: vscode.Uri): Promise<void> {
   if (uri.scheme !== "file") {
-    await vscode.env.openExternal(uri);
-    return;
+    await vscode.env.openExternal(uri)
+    return
   }
 
-  const targetUri = vscode.Uri.joinPath(source, "..", uri.path);
+  const targetUri = vscode.Uri.joinPath(source, "..", uri.path)
   try {
     // Ensure the resource exists and is a file
-    const stat = await vscode.workspace.fs.stat(targetUri);
+    const stat = await vscode.workspace.fs.stat(targetUri)
     if (stat.type !== vscode.FileType.File) {
-      throw new Error(`${targetUri.fsPath} is not a file`);
+      throw new Error(`${targetUri.fsPath} is not a file`)
     }
   } catch (e) {
     // Otherwise, open it externally
-    await vscode.env.openExternal(uri);
-    return;
+    await vscode.env.openExternal(uri)
+    return
   }
 
   const extensions = [
-    ".excalidraw",
-    ".excalidraw.json",
-    ".excalidraw.png",
-    ".excalidraw.svg",
-  ];
+    ".addt",
+    ".addt.json",
+    ".addt.png",
+    ".addt.svg",
+  ]
   for (const ext of extensions) {
     if (targetUri.fsPath.endsWith(ext)) {
-      await showEditor(targetUri);
-      return;
+      await showEditor(targetUri)
+      return
     }
   }
 
   await vscode.window.showTextDocument(targetUri, {
     preview: true,
-  });
+  })
 }
