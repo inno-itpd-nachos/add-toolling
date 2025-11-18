@@ -420,7 +420,7 @@ async function openLink(uri: vscode.Uri, source: vscode.Uri): Promise<void> {
     if (stat.type !== vscode.FileType.File) {
       throw new Error(`${targetUri.fsPath} is not a file`)
     }
-  } catch (e) {
+  } catch (_e) {
     // Otherwise, open it externally
     await vscode.env.openExternal(uri)
     return
