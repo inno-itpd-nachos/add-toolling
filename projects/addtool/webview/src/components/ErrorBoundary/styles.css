@@ -1,0 +1,115 @@
+.error-boundary {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--vscode-editor-background, #1e1e1e);
+  color: var(--vscode-editor-foreground, #d4d4d4);
+}
+
+.error-boundary__container {
+  max-width: 800px;
+  width: 100%;
+  background-color: var(--vscode-editor-background, #252526);
+  border: 1px solid var(--vscode-editorWidget-border, #454545);
+  border-radius: 4px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.error-boundary__title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--vscode-errorForeground, #f48771);
+}
+
+.error-boundary__content {
+  margin-bottom: 2rem;
+}
+
+.error-boundary__subtitle {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--vscode-editor-foreground, #d4d4d4);
+}
+
+.error-boundary__error {
+  margin-bottom: 1rem;
+}
+
+.error-boundary__message {
+  background-color: var(--vscode-textCodeBlock-background, #1e1e1e);
+  border: 1px solid var(--vscode-editorWidget-border, #454545);
+  border-radius: 3px;
+  padding: 1rem;
+  margin: 0.5rem 0 0 0;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  color: var(--vscode-errorForeground, #f48771);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-boundary__stack,
+.error-boundary__component-stack {
+  margin-bottom: 1rem;
+  border: 1px solid var(--vscode-editorWidget-border, #454545);
+  border-radius: 3px;
+  background-color: var(--vscode-textCodeBlock-background, #1e1e1e);
+}
+
+.error-boundary__stack summary,
+.error-boundary__component-stack summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--vscode-textLink-foreground, #3794ff);
+  user-select: none;
+}
+
+.error-boundary__stack summary:hover,
+.error-boundary__component-stack summary:hover {
+  background-color: var(--vscode-list-hoverBackground, #2a2d2e);
+}
+
+.error-boundary__stack pre,
+.error-boundary__component-stack pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: var(--vscode-editor-foreground, #d4d4d4);
+  white-space: pre;
+  border-top: 1px solid var(--vscode-editorWidget-border, #454545);
+}
+
+.error-boundary__reset-button {
+  background-color: var(--vscode-button-background, #0e639c);
+  color: var(--vscode-button-foreground, #ffffff);
+  border: none;
+  border-radius: 3px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.error-boundary__reset-button:hover {
+  background-color: var(--vscode-button-hoverBackground, #1177bb);
+}
+
+.error-boundary__reset-button:active {
+  transform: translateY(1px);
+}
+
+.error-boundary__reset-button:focus {
+  outline: 1px solid var(--vscode-focusBorder, #007acc);
+  outline-offset: 2px;
+}
+

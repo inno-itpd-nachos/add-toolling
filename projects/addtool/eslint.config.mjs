@@ -18,6 +18,14 @@ export default [{
             selector: "import",
             format: ["camelCase", "PascalCase"],
         }],
+        '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
 
         curly: "warn",
         eqeqeq: "warn",
