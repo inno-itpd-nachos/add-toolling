@@ -2,7 +2,10 @@
 
 Unit tests currently cover the PlantUML parsing logic.
 
-- **Location**: `tests/plantuml/parsePumlToJson.test.js`
+- **Location**: 
+  - `tests/plantuml/parsePumlToJson.test.js`
+  - `tests/analysis/analyzeDiagram.test.js`
+
 - **Naming convention**: unit test files use the `.test.js` / `.test.ts` suffix (for example, `parsePumlToJson.test.js`).
 - **Run unit tests**:  
 ```npm run test:unit```
