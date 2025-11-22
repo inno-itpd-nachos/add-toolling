@@ -155,3 +155,28 @@ This structure:
 - Makes it easy for any team member or stakeholder to see current work, upcoming items, and finished tasks at a glance.
 
 Contributors are expected to keep the board up to date by moving their Issues as they progress.
+
+### Managing secrets
+
+We use environment-specific secrets for deployment and automation. Do **not** commit any secrets (API keys, database URLs, tokens, etc.) to the repository.
+
+- **Where secrets live**
+  - Local development: use a local `.env` or similar config file that is **not** tracked by Git (listed in `.gitignore`).
+  - CI/CD: use GitHub Actions **Secrets** and **Environments** (`staging`, `production`) for anything needed by workflows.
+  - Deployment configs: keep only placeholder values or variable names in versioned config files (for example, `${STAGING_DATABASE_URL}`), and resolve them from environment variables or GitHub Secrets at runtime.
+
+- **Naming conventions**
+  - Use clear, environment-specific prefixes:
+    - `STAGING_...` for staging (for example, `STAGING_DATABASE_URL`, `STAGING_API_BASE_URL`).
+    - `PROD_...` or `PRODUCTION_...` for production (for example, `PROD_API_KEY`, `PROD_DATABASE_URL`).
+  - When both environments share the same concept, keep the suffix consistent, e.g. `STAGING_API_KEY` / `PROD_API_KEY`.
+
+- **Environment-specific secrets**
+  - The **staging** environment uses its own keys and URLs, isolated from production (separate database, API endpoints, and tokens).
+  - The **production** environment has separate secrets with stricter access (only maintainers should be able to view or rotate them).
+  - GitHub Actions workflows select the correct environment (`staging` or `production`) so jobs automatically receive the right set of secrets.
+
+When adding new code that needs a secret:
+- First, introduce a new environment variable name (following the conventions above).
+- Ask a maintainer to add the corresponding secret to the appropriate GitHub environment.
+- Use the variable in code and workflows instead of hardcoding secret values.
