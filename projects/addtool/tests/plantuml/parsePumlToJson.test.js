@@ -54,7 +54,7 @@ ApiGateway --> ScoringService
 
     // Act
     const result = parsePumlToJson(puml);
-    console.log("RESULT:", JSON.stringify(result, null, 2));
+    
     // Assert
     expect(result).toEqual(expected);
   });
