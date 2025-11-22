@@ -1,5 +1,7 @@
 import * as vscode from "vscode"
+import { ADDTOOL } from "src/constants"
 import { newUntitledAddtDocument } from "./utils"
+import { AddtEditor } from "./editor"
 
 function getConfigurationScope(
   config: vscode.WorkspaceConfiguration,
@@ -16,7 +18,7 @@ function getConfigurationScope(
 }
 
 async function updateTheme() {
-  const addtConfig = vscode.workspace.getConfiguration("addt")
+  const addtConfig = vscode.workspace.getConfiguration(ADDTOOL.NAME)
   const initialTheme = addtConfig.get<string>("theme")
   // Todo: find out the scope of the current theme config before updating it
   const configurationScope = getConfigurationScope(addtConfig, "theme")
@@ -79,19 +81,19 @@ export async function showEditor(
   await vscode.commands.executeCommand(
     "vscode.openWith",
     uri,
-    "editor.addtool",
+    ADDTOOL.EDITOR,
     viewColumn
   )
 }
 
-function showImage(uri: vscode.Uri, viewColumn?: vscode.ViewColumn) {
-  vscode.commands.executeCommand(
-    "vscode.openWith",
-    uri,
-    "imagePreview.previewEditor",
-    viewColumn
-  )
-}
+// function showImage(uri: vscode.Uri, viewColumn?: vscode.ViewColumn) {
+//   vscode.commands.executeCommand(
+//     "vscode.openWith",
+//     uri,
+//     "imagePreview.previewEditor",
+//     viewColumn
+//   )
+// }
 
 async function newFile() {
   try {
@@ -101,41 +103,80 @@ async function newFile() {
   }
 }
 
+/**
+ * Example command that sends a message to all active webviews.
+ * You can use this as a template for your own commands.
+ */
+// function exampleSendMessageToWebview() {
+//   sendMessageToWebviews({
+//     type: "command-triggered",
+//     action: "example-action",
+//     timestamp: Date.now(),
+//   })
+//   vscode.window.showInformationMessage("Message sent to webviews")
+// }
+
 export function registerCommands(context: vscode.ExtensionContext) {
   context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.newFile", newFile)
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.newFile`, newFile)
+  )
+  // context.subscriptions.push(
+  //   vscode.commands.registerCommand(`${ADDTOOL.NAME}.newSceneFile`, newFile)
+  // )
+  context.subscriptions.push(
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.updateTheme`, updateTheme)
   )
   context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.newSceneFile", newFile)
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.showSource`, showSource)
   )
   context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.updateTheme", updateTheme)
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.showEditor`, showEditor)
   )
+  // context.subscriptions.push(
+  //   vscode.commands.registerCommand(`${ADDTOOL.NAME}.showImage`, showImage)
+  // )
+  // context.subscriptions.push(
+  //   vscode.commands.registerCommand(`${ADDTOOL.NAME}.showImageToSide`, (uri) =>
+  //     showImage(uri, vscode.ViewColumn.Beside)
+  //   )
+  // )
   context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.showSource", showSource)
-  )
-  context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.showEditor", showEditor)
-  )
-  context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.showImage", showImage)
-  )
-  context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.showImageToSide", (uri) =>
-      showImage(uri, vscode.ViewColumn.Beside)
-    )
-  )
-  context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.showEditorToSide", (uri) =>
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.showEditorToSide`, (uri) =>
       showEditor(uri, vscode.ViewColumn.Beside)
     )
   )
   context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.showSourceToSide", (uri) =>
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.showSourceToSide`, (uri) =>
       showSource(uri, vscode.ViewColumn.Beside)
     )
   )
   context.subscriptions.push(
-    vscode.commands.registerCommand("addtool.preventDefault", () => {})
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.preventDefault`, () => {})
   )
+  context.subscriptions.push(
+    vscode.commands.registerCommand(`${ADDTOOL.NAME}.toggleView`, () =>
+      sendMessageToWebviews({type: 'command', name: 'toggleView'})
+    )
+  )
+  // Example: Register a command that sends a message to webviews
+  // Uncomment to enable:
+  // context.subscriptions.push(
+  //   vscode.commands.registerCommand(
+  //     `${ADDTOOL.NAME}.exampleSendMessage`,
+  //     exampleSendMessageToWebview
+  //   )
+  // )
+}
+
+/**
+ * Helper function to send a message from a command to all active webviews.
+ * @param message The message object to send (must have a 'type' property)
+ * @example
+ * sendMessageToWebviews({ type: 'custom-action', data: 'some data' })
+ */
+export function sendMessageToWebviews(message: {
+  type: string
+  [key: string]: unknown
+}) {
+  AddtEditor.postMessageToAllWebviews(message)
 }

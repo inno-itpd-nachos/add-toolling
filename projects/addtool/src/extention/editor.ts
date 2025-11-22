@@ -5,10 +5,10 @@ import { Base64 } from "js-base64"
 import { AddtDocument } from "./document"
 import { languageMap } from "./lang"
 import { showEditor } from "./commands"
+import { ADDTOOL } from "src/constants"
 
 export class AddtEditorProvider
-  implements vscode.CustomEditorProvider<AddtDocument>
-{
+  implements vscode.CustomEditorProvider<AddtDocument> {
   public static async register(
     context: vscode.ExtensionContext
   ): Promise<vscode.Disposable> {
@@ -36,7 +36,7 @@ export class AddtEditorProvider
       .update(
         "library",
         JSON.stringify({
-          type: "AddtoolLib",
+          type: ADDTOOL.LIB,
           version: 2,
           // todo
           source: "",
@@ -48,9 +48,9 @@ export class AddtEditorProvider
       })
   }
 
-  private static readonly viewType = "editor.addtool"
+  private static readonly viewType = ADDTOOL.EDITOR
 
-  constructor(private readonly context: vscode.ExtensionContext) {}
+  constructor(private readonly context: vscode.ExtensionContext) { }
 
   public async resolveCustomEditor(
     document: AddtDocument,
@@ -88,9 +88,7 @@ export class AddtEditorProvider
   ): Promise<AddtDocument> {
     let content: Uint8Array
     if (uri.scheme === "untitled") {
-      content = new TextEncoder().encode(
-        JSON.stringify({ type: "Addt", elements: [] })
-      )
+      content = new TextEncoder().encode(JSON.stringify(ADDTOOL.EMPTY_FILE_CONTENT.EXCALIDRAW))
     } else {
       content = await vscode.workspace.fs.readFile(
         openContext.backupId ? vscode.Uri.parse(openContext.backupId) : uri
@@ -134,13 +132,20 @@ export class AddtEditor {
     library: string
   }>()
   private static onLibraryImport = AddtEditor._onLibraryImport.event
+  
+  // Registry of active webviews for command-to-webview messaging
+  private static activeWebviews = new Set<vscode.Webview>()
+  
   private textDecoder = new TextDecoder()
 
   constructor(
     readonly document: AddtDocument,
     readonly webview: vscode.Webview,
     readonly context: vscode.ExtensionContext
-  ) {}
+  ) {
+    // Register this webview when editor is created
+    AddtEditor.activeWebviews.add(webview)
+  }
 
   isViewOnly() {
     return (
@@ -185,7 +190,7 @@ export class AddtEditor {
 
     const onDidChangeThemeConfiguration =
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (!e.affectsConfiguration("addt.theme", this.document.uri)) {
+        if (!e.affectsConfiguration(`${ADDTOOL.NAME}.theme`, this.document.uri)) {
           return
         }
         this.webview.postMessage({
@@ -195,7 +200,7 @@ export class AddtEditor {
       }, this)
 
     vscode.workspace.onDidChangeConfiguration((e) => {
-      if (!e.affectsConfiguration("addt.language", this.document.uri)) {
+      if (!e.affectsConfiguration(`${ADDTOOL.NAME}.language`, this.document.uri)) {
         return
       }
       this.webview.postMessage({
@@ -206,7 +211,7 @@ export class AddtEditor {
 
     const onDidChangeEmbedConfiguration =
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (!e.affectsConfiguration("addt.image", this.document.uri)) {
+        if (!e.affectsConfiguration(`${ADDTOOL.NAME}.image`, this.document.uri)) {
           return
         }
         this.webview.postMessage({
@@ -219,7 +224,7 @@ export class AddtEditor {
       vscode.workspace.onDidChangeConfiguration(async (e) => {
         if (
           !e.affectsConfiguration(
-            "addt.workspaceLibraryPath",
+            `${ADDTOOL.NAME}.workspaceLibraryPath`,
             this.document.uri
           )
         ) {
@@ -267,6 +272,8 @@ export class AddtEditor {
     })
 
     return new vscode.Disposable(() => {
+      // Unregister webview when disposed
+      AddtEditor.activeWebviews.delete(this.webview)
       onDidReceiveMessage.dispose()
       onDidChangeThemeConfiguration.dispose()
       onLibraryImport.dispose()
@@ -277,30 +284,30 @@ export class AddtEditor {
   }
 
   private getImageParams() {
-    return vscode.workspace.getConfiguration("addt").get("image")
+    return vscode.workspace.getConfiguration(ADDTOOL.NAME).get("image")
   }
 
   private getLanguage() {
     return (
-      vscode.workspace.getConfiguration("addt").get("language") ||
+      vscode.workspace.getConfiguration(ADDTOOL.NAME).get("language") ||
       languageMap[vscode.env.language as keyof typeof languageMap]
     )
   }
 
   private getTheme() {
     return vscode.workspace
-      .getConfiguration("addt")
+      .getConfiguration(ADDTOOL.NAME)
       .get("theme", "light")
   }
 
   public extractName(uri: vscode.Uri) {
     const name = path.parse(uri.fsPath).name
-    return name.endsWith(".addt") ? name.slice(0, -5) : name
+    return name.endsWith(`.${ADDTOOL.EXTENSION}`) ? name.slice(0, -5) : name
   }
 
   public async getLibraryUri() {
     const libraryPath = await vscode.workspace
-      .getConfiguration("addt")
+      .getConfiguration(ADDTOOL.NAME)
       .get<string>("workspaceLibraryPath")
     const workspaceFolders = vscode.workspace.workspaceFolders
     if (!libraryPath || !workspaceFolders) {
@@ -320,6 +327,20 @@ export class AddtEditor {
 
   public static importLibrary(library: string) {
     this._onLibraryImport.fire({ library })
+  }
+
+  /**
+   * Send a message to all active webviews.
+   * This can be called from commands to communicate with webviews.
+   * @param message The message to send to webviews
+   */
+  public static postMessageToAllWebviews(message: {
+    type: string
+    [key: string]: unknown
+  }) {
+    for (const webview of AddtEditor.activeWebviews) {
+      webview.postMessage(message)
+    }
   }
 
   public async loadLibrary(libraryUri?: vscode.Uri) {
@@ -427,10 +448,10 @@ async function openLink(uri: vscode.Uri, source: vscode.Uri): Promise<void> {
   }
 
   const extensions = [
-    ".addt",
-    ".addt.json",
-    ".addt.png",
-    ".addt.svg",
+    `.${ADDTOOL.EXTENSION}`,
+    `.${ADDTOOL.EXTENSION}.json`,
+    `.${ADDTOOL.EXTENSION}.png`,
+    `.${ADDTOOL.EXTENSION}.svg`,
   ]
   for (const ext of extensions) {
     if (targetUri.fsPath.endsWith(ext)) {

@@ -15,7 +15,11 @@
     "commands": [
       {
         "command": "addtool.newFile",
-        "title": "EX: New File"
+        "title": "ADDTool: New File"
+      },
+      {
+        "command": "addtool.toggleView",
+        "title": "ADDTool: Toggle view"
       }
     ],
     "customEditors": [
