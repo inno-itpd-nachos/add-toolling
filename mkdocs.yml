@@ -20,3 +20,9 @@ nav:
           - Interview Script: sprints/sprint-1/script.md
           - Meeting: sprints/sprint-1/meeting.md
           - Report (PDF): sprints/sprint-1/report.pdf
+      - Sprint 2:
+          - Sprint Report: sprints/sprint-2/sprint-1.md
+          - Meetings:
+              - Meeting 1: sprints/sprint-2/meeting-1.md
+              - Meeting 2: sprints/sprint-2/meeting-2.md
+          - Retrospective: sprints/sprint-2/retro.md
