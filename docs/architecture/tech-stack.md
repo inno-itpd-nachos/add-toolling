@@ -106,11 +106,10 @@
 
 ## Testing
 
-### Unit Testing
 **Jest**
-- **Why**: Most popular framework, excellent TypeScript support, built-in mocking and coverage
-- **Use**: Unit tests for parsing, analysis, estimation logic
-- **Coverage Target**: 80%
+- **Why**: Popular framework with strong TypeScript support plus built‑in mocking and coverage.
+- **Use**: Unit tests for PlantUML parsing logic (`parsePumlToJson`); analysis and estimation will be added later using the same setup.
+- **Coverage Target**: Current minimum 30% for parsing as a starting point; long‑term goal 80%+ for core business logic.
 
 ### Integration Testing
 **VS Code Extension Test Runner**

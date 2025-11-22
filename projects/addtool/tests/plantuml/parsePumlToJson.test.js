@@ -1,17 +1,17 @@
-import { parsePumlToJson } from "../../src/plantuml/parsePumlToJson";
 
+const { parsePumlToJson } = require("../../src/plantuml/parsePumlToJson");
 describe("parsePumlToJson", () => {
   test("parses 3 components with 2 relations", () => {
     // Arrange
     const puml = `
     @startuml
-    component "Web UI" as WebUI
-    component "API Gateway" as ApiGateway
-    component "Scoring Service" as ScoringService
+component "Web UI" as WebUI
+component "API Gateway" as ApiGateway
+component "Scoring Service" as ScoringService
 
-    WebUI --> ApiGateway
-    ApiGateway --> ScoringService
-    @enduml
+WebUI --> ApiGateway
+ApiGateway --> ScoringService
+@enduml
     `;
 
     const expected = [
@@ -54,7 +54,7 @@ describe("parsePumlToJson", () => {
 
     // Act
     const result = parsePumlToJson(puml);
-
+    console.log("RESULT:", JSON.stringify(result, null, 2));
     // Assert
     expect(result).toEqual(expected);
   });
@@ -63,10 +63,11 @@ describe("parsePumlToJson", () => {
     // Arrange
     const puml = `
     @startuml
-    component "User Service" as UserService
-    component "Order Service" as OrderService
-    component "Billing Service" as BillingService
-    @enduml
+component "User Service" as UserService
+component "Order Service" as OrderService
+component "Billing Service" as BillingService
+@enduml
+
     `;
 
     const expected = [
@@ -90,12 +91,12 @@ describe("parsePumlToJson", () => {
     // Arrange
     const puml = `
     @startuml
-    component "Frontend" as Frontend
-    component "Backend" as Backend
-    component "Reporting" as Reporting
+component "Frontend" as Frontend
+component "Backend" as Backend
+component "Reporting" as Reporting
 
-    Frontend --> Backend
-    @enduml
+Frontend --> Backend
+@enduml
     `;
 
     const expected = [
@@ -133,13 +134,13 @@ describe("parsePumlToJson", () => {
     // Arrange
     const puml = `
     @startuml
-    component "Auth Service" as AuthService
-    interface "Payment API" as PaymentAPI
-    component "Order Processor" as OrderProcessor
+component "Auth Service" as AuthService
+interface "Payment API" as PaymentAPI
+component "Order Processor" as OrderProcessor
 
-    AuthService --> PaymentAPI
-    OrderProcessor --> PaymentAPI
-    @enduml
+AuthService --> PaymentAPI
+OrderProcessor --> PaymentAPI
+@enduml
     `;
 
     const expected = [
@@ -199,9 +200,9 @@ describe("parsePumlToJson", () => {
     // Arrange
     const puml = `
     @startuml
-    component "Broken Service" as Broken
-    Broken --> 
-    @enduml
+component "Broken Service" as Broken
+Broken --> 
+@enduml
     `;
 
     const expected = [
