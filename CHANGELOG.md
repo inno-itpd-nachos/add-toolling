@@ -1,5 +1,28 @@
 # Changelog
 
+
+## [0.0.3] - Sprint 3
+
+### Added
+
+- Jest-based unit tests for core business logic:
+  - `src/plantuml/parsePumlToJson.js` — PlantUML parsing.
+  - `src/analysis/analyzeDiagram.js` — architecture analysis (metrics, isolated components, cycles).
+- Jest configuration with coverage collection and per-module thresholds (≥ 30%).
+- Documentation updates:
+  - `docs/architecture/tech-stack.md` — Testing and Static analysis sections.
+  - `docs/automation/testing.md` — unit test locations, commands, coverage setup, and selected modules.
+- Continuous Integration workflow (`.github/workflows/ci-cd.yml`) with parallel `lint` and `test` jobs, coverage report, and artifact publishing.
+- GitHub environments `staging` and `production` with environment-specific secrets.
+- Automated deployment to staging (`deploy-staging` job) and production (`deploy-production` job with manual approval).
+- Automated quality attribute scenario tests on staging (`test-staging` job) with documentation in `docs/automation/testing.md`.
+- Sprint 3 documentation: TDD log (`docs/sprint-3/tdd-log.md`), review script, meeting notes, and retrospective.
+
+### Changed
+
+- Updated documentation to reflect the new testing, static analysis, and CI/CD setup.
+- Adjusted GitHub Actions workflow to support continuous delivery to staging and production.
+
 ## [0.0.2] - Sprint 2
 
 ### Added
