@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, type FC } from "react"
 import {
   Excalidraw,
-  loadLibraryFromBlob,
   serializeLibraryAsJSON,
 } from "@excalidraw/excalidraw"
 
@@ -28,7 +27,7 @@ export const Editor: FC = () => {
 }
 
 const EditorInner: FC<UmlComponentEditorProps> = ({ initialData, name, libraryItems, dirty, onChange, langCodeProp, imageParamsProp, viewModeEnabled }) => {
-  const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI>()
+  const [_excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI>()
   const libraryItemsRef = useRef(libraryItems)
   const [imageParams] = useState(imageParamsProp)
   const [langCode] = useState(langCodeProp)
@@ -47,56 +46,68 @@ const EditorInner: FC<UmlComponentEditorProps> = ({ initialData, name, libraryIt
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const listener = async (e: any) => {
-      try {
-        const message = e.data
-        switch (message.type) {
-          case "library-change": {
-            const blob = new Blob([message.library], {
-              type: "application/json",
-            })
-            const libraryItems = await loadLibraryFromBlob(blob)
-            if (
-              JSON.stringify(libraryItems) ==
-              JSON.stringify(libraryItemsRef.current)
-            ) {
-              return
-            }
-            libraryItemsRef.current = libraryItems
-            excalidrawAPI?.updateLibrary({
-              libraryItems,
-              merge: message.merge,
-              openLibraryMenu: !message.merge,
-            })
-            break
-          }
-          // case "theme-change": {
-          //   setThemeConfig(message.theme)
-          //   break
-          // }
-          // case "language-change": {
-          //   setLangCode(message.langCode)
-          //   break
-          // }
-          // case "image-params-change": {
-          //   setImageParams(message.imageParams)
-          // }
-        }
-      } catch (e) {
-        vscode.postMessage({
-          type: "error",
-          content: (e as Error).message,
-        })
-      }
-    }
-    window.addEventListener("message", listener)
+  // useEffect(() => {
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   const listener = async (e: any) => {
+  //     try {
+  //       const message = e.data
+  //       switch (message.type) {
+  //         case "library-change": {
+  //           const blob = new Blob([message.library], {
+  //             type: "application/json",
+  //           })
+  //           const libraryItems = await loadLibraryFromBlob(blob)
+  //           if (
+  //             JSON.stringify(libraryItems) ==
+  //             JSON.stringify(libraryItemsRef.current)
+  //           ) {
+  //             return
+  //           }
+  //           libraryItemsRef.current = libraryItems
+  //           excalidrawAPI?.updateLibrary({
+  //             libraryItems,
+  //             merge: message.merge,
+  //             openLibraryMenu: !message.merge,
+  //           })
+  //           break
+  //         }
+  //         // case "theme-change": {
+  //         //   setThemeConfig(message.theme)
+  //         //   break
+  //         // }
+  //         // case "language-change": {
+  //         //   setLangCode(message.langCode)
+  //         //   break
+  //         // }
+  //         // case "image-params-change": {
+  //         //   setImageParams(message.imageParams)
+  //         // }
+  //         case "command": {
+  //           switch (message.name) {
+  //             case "toggleView": {
+  //               if (currentTab === 'uml_component') {
+  //                 setTab('table_add')
+  //               } else {
+  //                 setTab('uml_component')
+  //               }
+  //               break
+  //             }
+  //           }
+  //         }
+  //       }
+  //     } catch (e) {
+  //       vscode.postMessage({
+  //         type: "error",
+  //         content: (e as Error).message,
+  //       })
+  //     }
+  //   }
+  //   window.addEventListener("message", listener)
 
-    return () => {
-      window.removeEventListener("message", listener)
-    }
-  }, [excalidrawAPI])
+  //   return () => {
+  //     window.removeEventListener("message", listener)
+  //   }
+  // }, [excalidrawAPI])
 
   return (
     <Excalidraw

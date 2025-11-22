@@ -17,8 +17,6 @@ import { useEffect, useState } from "react"
 import type { UmlComponentEditorProps } from "types/uml-component"
 import { useStore } from "store"
 
-
-
 import * as _ from 'lodash'
 
 
@@ -37,6 +35,7 @@ async function getInitialData(
     contentType,
     ...mimeTypeFallbacks[contentType as keyof typeof mimeTypeFallbacks],
   ]
+  console.log('getInitialData', content, contentType)
   for (const contentType of potentialContentTypes) {
     try {
       const initialData = await loadFromBlob(
@@ -69,6 +68,7 @@ function getExcalidrawConfig(rootElement: HTMLElement) {
 }
 
 async function getLibraryItems(libraryString: string) {
+  console.log('getLibraryItems', libraryString)
   try {
     return await loadLibraryFromBlob(
       new Blob([libraryString], { type: "application/json" })
@@ -88,6 +88,7 @@ async function initialize(set: (props: UmlComponentEditorProps) => void) {
     if (!rootElement) {
       throw Error("root element is missing")
     }
+
     const config = await getExcalidrawConfig(rootElement)
 
     const [initialData, initialContentType] =
@@ -97,6 +98,8 @@ async function initialize(set: (props: UmlComponentEditorProps) => void) {
           config.contentType
         )
         : [undefined, config.contentType]
+    
+    console.log('initialize', config, initialData, initialContentType)
 
     const sendChanges = sendChangesToVSCode(config.contentType)
     const debouncedOnChange = (

@@ -1,8 +1,9 @@
 import { type FC } from "react"
-import { useThemeWatcher, useUmlComponentWatcher } from "./hooks"
+import { useMessageListener, useUmlComponentWatcher } from "./hooks"
 
 export const AppEffects: FC = () => {
   // useThemeWatcher()
+  useMessageListener()
   useUmlComponentWatcher()
 
   return null

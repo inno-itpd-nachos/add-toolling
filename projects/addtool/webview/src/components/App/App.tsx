@@ -1,9 +1,11 @@
-import { AppEffects } from "components/AppEffects"
-import { Router } from "components/Router"
+import { AppEffects } from 'components/AppEffects'
+import { Router } from 'components/Router'
 
 export const App = () => {
-  return <>
-    <AppEffects />
-    <Router />
-  </>
+  return (
+    <>
+      <AppEffects />
+      <Router />
+    </>
+  )
 }
