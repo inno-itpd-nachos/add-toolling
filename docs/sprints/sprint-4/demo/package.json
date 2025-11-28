@@ -1,0 +1,19 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "marp slides.md -o slides.html",
+    "build:pdf": "marp slides.md -o slides.pdf",
+    "build:pptx": "marp slides.md -o slides.pptx",
+    "build:all": "npm run build && npm run build:pdf && npm run build:pptx",
+    "preview": "marp slides.md --preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Marp presentation for Sprint 4 demo",
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.2.3"
+  }
+}

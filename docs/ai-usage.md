@@ -14,3 +14,7 @@
     - Contributing
     - Requirements
     - Architecture
+
+## Sprint 4
+
+Initial slides.md generation with cursor
