@@ -1,0 +1,119 @@
+// Define variables for the cover page
+#let assignment-reference = "ITPD Assignment C5"
+#let title = "C5"
+
+#let team-name = "Team Nachos"
+#let team-members = "Dmitry Batalov, d.batalov@innopolis.university, Legolass322, Lead
+Gleb Statkevich, g.statkevich@innopolis.university, glebkkevvich, Developer
+Aizat Murtazin, a.murtazin@innopolis.university, muitiiifruckt, Developer
+Marat Khalikov, m.khalikov@innopolis.university, QCold-bit, Developer"
+#let date = "2.12.2025"
+#let university = "Innopolis University"
+
+#let pagesLink = "https://inno-itpd-nachos.github.io/add-toolling"
+#let dashboardLink = "https://github.com/orgs/inno-itpd-nachos/projects/1"
+#let repoLink = "https://github.com/inno-itpd-nachos/add-toolling"
+#let repoTreeLink = repoLink + "/tree/main"
+#let docsLink = repoTreeLink + "/docs"
+#let archLink = docsLink + "/architecture"
+
+#let sprintLink = docsLink + "/sprints/sprint-4"
+
+// Cover page
+#set page("a4")
+#set text(size: 14pt)
+#show link: underline
+
+// Right-aligned content for most elements
+#align(right)[
+  #v(15%)
+  #text(assignment-reference) \ \
+  #text(size: 24pt, weight: "bold", title) \
+  #text(size: 24pt, weight: "bold", "Architecture Scoring") \
+  #v(20%)
+  #text(weight: "bold", team-name + ":") \
+  #text(team-members)
+]
+
+// Bottom center for date and university
+#align(bottom + center)[
+  #text(date),
+  #text(university)
+]
+
+// Page break for the cover page
+#pagebreak()
+
+// Document structure with headers for the report content
+#set heading(numbering: "1.")
+
+= C5
+
+== Our comments
+
+=== A2
+
+Recommendations:
+It felt wrong about User engagement and Tailwind CSS)
+Nice presentation, project demo is awesome
+
+=== MyMini
+
+\-
+
+=== NameSoon
+
+- Questions: 
+Do you have man option for your CL to see a blueprint of what your tool can do? 
+Did you consider addition some GUI to make it easier to notice changes and updates rather than in plain text format?
+
+=== The Crackers
+
+Since the context of the project is shared, we didn’t encounter problems understanding the project. Demo is nice looking, and the presentation covers most of the possible topics within the timebox.
+
+=== Cringineers
+
+Questions: 
+How do you plan to integrate/deploy LLM?
+A: we do not plan to implement LLM
+
+=== Rustlings
+
+\-
+
+== Comments from other teams
+
+=== A2
+
+Good introduction of context.
+Why VS code is chosen?
+What is the workflow that a user undergoes? Answer: A user imports a csv with attributes and PlantUML and can modify it easily
+What are user inputs and outputs? Answer: customer has PlantUML diagrams and text and wants to modify diagrams, he does it with Excalidraw, so the flow is bidirectional. 
+
+=== MyMini
+
+What is the evolution matrix?
+
+=== NameSoon
+
+\-
+
+=== Crackers
+
+We share the same project, understanding the presentation was easy. However, I admire that they went with the vs code extension solution and already have some progress on the visualization for diagrams. Hopefully, they will complete a working demo soon)
+
+=== Cringineers
+
+Q: Why manually scoring, not using LLM?
+A: It was not discussed with customer and not included in MVP
+
+Q: What is addt file under the hood?
+A:Just a json
+
+Q: How do you control the visual display if there are many objects on the diagram? 
+A: Only manually
+Feedback: It's a good idea to implement an extension for VS code
+
+=== Rustlings
+
+\-
