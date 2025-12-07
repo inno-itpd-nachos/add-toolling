@@ -7,6 +7,8 @@ export const ADDTOOL = {
   EDITOR: 'editor.addtool',
   LIB: 'addtoollib',
   EMPTY_FILE_CONTENT: {
-    EXCALIDRAW: {"type": "addt", "table": [], "uml-component": [], "drawer": {"type": "excalidraw", "elements": []}},
+    EXCALIDRAW: {"type": "addt" as const, "table": [] as Record<string, number>[], "umlComponent": {} as Record<string, string>, "drawer": {"type": "excalidraw" as const, "elements": [] as unknown[]}},
+    // TODO
+    DRAWIO: {"type": "addt" as const, "table": [] as Record<string, number>[], "umlComponent": {} as Record<string, string>, "drawer": {"type": "drawio" as const, "elements": [] as unknown[]}},
   },
 }

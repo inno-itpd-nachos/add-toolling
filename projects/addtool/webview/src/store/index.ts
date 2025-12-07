@@ -4,8 +4,9 @@ import { createTabSlice, type TabSlice } from './tab'
 import { createTableAddSlice, type TableAddSlice } from './table-add'
 import { createThemeSlice, type ThemeSlice } from './theme'
 import { createUmlComponentSlice, type UmlComponentSlice } from './uml-component'
+import { createExcalidrawApiSlice, type ExcalidrawApiSlice } from './excalidraw-api'
 
-export type StoreState = ModalsSlice & TabSlice & ThemeSlice & UmlComponentSlice & TableAddSlice
+export type StoreState = ModalsSlice & TabSlice & ThemeSlice & UmlComponentSlice & TableAddSlice & ExcalidrawApiSlice
 
 export const useStore = create<StoreState>()((...a) => ({
   ...createModalsSlice(...a),
@@ -13,4 +14,5 @@ export const useStore = create<StoreState>()((...a) => ({
   ...createThemeSlice(...a),
   ...createUmlComponentSlice(...a),
   ...createTableAddSlice(...a),
+  ...createExcalidrawApiSlice(...a),
 }))

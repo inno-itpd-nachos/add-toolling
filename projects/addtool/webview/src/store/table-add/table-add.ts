@@ -6,16 +6,19 @@ export interface TableAddSlice {
   attributesToComponentsScore: Record<string, Record<string, number>> // attribute id to record of component id to number
 
   // Component CRUD
+  setComponents: (v: Record<string, string>) => void
   addComponent: (id: string, name: string) => void
   updateComponent: (id: string, name: string) => void
   deleteComponent: (id: string) => void
 
   // Attribute CRUD
+  setAttributes: (v: Record<string, string>) => void
   addAttribute: (id: string, name: string) => void
   updateAttribute: (id: string, name: string) => void
   deleteAttribute: (id: string) => void
 
   // Cell value operations
+  setAttributesToComponentsScore: (v: Record<string, Record<string, number>>) => void
   setCellValue: (componentId: string, attributeId: string, value: number) => void
   getCellValue: (componentId: string, attributeId: string) => number | undefined
 }
@@ -26,6 +29,8 @@ export const createTableAddSlice: StateCreator<TableAddSlice> = (set, get) => ({
   attributesToComponentsScore: {},
 
   // Component CRUD
+  setComponents: (components) => set(() => ({components})),
+
   addComponent: (id, name) =>
     set((state) => ({
       components: {
@@ -64,6 +69,8 @@ export const createTableAddSlice: StateCreator<TableAddSlice> = (set, get) => ({
     }),
 
   // Attribute CRUD
+  setAttributes: (attributes) => set(() => ({attributes})),
+
   addAttribute: (id, name) =>
     set((state) => ({
       attributes: {
@@ -101,6 +108,8 @@ export const createTableAddSlice: StateCreator<TableAddSlice> = (set, get) => ({
     }),
 
   // Cell value operations
+  setAttributesToComponentsScore: (attributesToComponentsScore) => set(() => ({attributesToComponentsScore})),
+
   setCellValue: (componentId, attributeId, value) =>
     set((state) => ({
       attributesToComponentsScore: {

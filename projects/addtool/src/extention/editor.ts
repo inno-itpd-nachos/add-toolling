@@ -232,7 +232,8 @@ export class AddtEditor {
         }
 
         libraryUri = await this.getLibraryUri()
-        const library = await this.loadLibrary(libraryUri)
+        // const library = await this.loadLibrary(libraryUri)
+        const library = undefined
         this.webview.postMessage({
           type: "library-change",
           library,
@@ -263,7 +264,8 @@ export class AddtEditor {
     this.webview.html = await this.buildHtmlForWebview({
       content: Array.from(this.document.content),
       contentType: this.document.contentType,
-      library: await this.loadLibrary(libraryUri),
+      // library: await this.loadLibrary(libraryUri),
+      library: undefined,
       viewModeEnabled: this.isViewOnly() || undefined,
       theme: this.getTheme(),
       imageParams: this.getImageParams(),
@@ -321,7 +323,6 @@ export class AddtEditor {
     if (!fileWorkspace) {
       return
     }
-
     return vscode.Uri.joinPath(fileWorkspace.uri, libraryPath)
   }
 

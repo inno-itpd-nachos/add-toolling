@@ -6,9 +6,6 @@ import {
 
 import "@excalidraw/excalidraw/index.css"
 
-import type {
-  ExcalidrawImperativeAPI,
-} from "@excalidraw/excalidraw/types"
 import { vscode } from "lib/vscode"
 import { useStore } from "store"
 import { EXTENSION } from "constants/vscode"
@@ -27,7 +24,7 @@ export const Editor: FC = () => {
 }
 
 const EditorInner: FC<UmlComponentEditorProps> = ({ initialData, name, libraryItems, dirty, onChange, langCodeProp, imageParamsProp, viewModeEnabled }) => {
-  const [_excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI>()
+  const setExcalidrawApi = useStore(store => store.setExcalidrawApi)
   const libraryItemsRef = useRef(libraryItems)
   const [imageParams] = useState(imageParamsProp)
   const [langCode] = useState(langCodeProp)
@@ -46,72 +43,9 @@ const EditorInner: FC<UmlComponentEditorProps> = ({ initialData, name, libraryIt
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   const listener = async (e: any) => {
-  //     try {
-  //       const message = e.data
-  //       switch (message.type) {
-  //         case "library-change": {
-  //           const blob = new Blob([message.library], {
-  //             type: "application/json",
-  //           })
-  //           const libraryItems = await loadLibraryFromBlob(blob)
-  //           if (
-  //             JSON.stringify(libraryItems) ==
-  //             JSON.stringify(libraryItemsRef.current)
-  //           ) {
-  //             return
-  //           }
-  //           libraryItemsRef.current = libraryItems
-  //           excalidrawAPI?.updateLibrary({
-  //             libraryItems,
-  //             merge: message.merge,
-  //             openLibraryMenu: !message.merge,
-  //           })
-  //           break
-  //         }
-  //         // case "theme-change": {
-  //         //   setThemeConfig(message.theme)
-  //         //   break
-  //         // }
-  //         // case "language-change": {
-  //         //   setLangCode(message.langCode)
-  //         //   break
-  //         // }
-  //         // case "image-params-change": {
-  //         //   setImageParams(message.imageParams)
-  //         // }
-  //         case "command": {
-  //           switch (message.name) {
-  //             case "toggleView": {
-  //               if (currentTab === 'uml_component') {
-  //                 setTab('table_add')
-  //               } else {
-  //                 setTab('uml_component')
-  //               }
-  //               break
-  //             }
-  //           }
-  //         }
-  //       }
-  //     } catch (e) {
-  //       vscode.postMessage({
-  //         type: "error",
-  //         content: (e as Error).message,
-  //       })
-  //     }
-  //   }
-  //   window.addEventListener("message", listener)
-
-  //   return () => {
-  //     window.removeEventListener("message", listener)
-  //   }
-  // }, [excalidrawAPI])
-
   return (
     <Excalidraw
-      excalidrawAPI={(api) => setExcalidrawAPI(api)}
+      excalidrawAPI={(api) => setExcalidrawApi(api)}
       UIOptions={{
         canvasActions: {
           loadScene: false,
@@ -144,7 +78,7 @@ const EditorInner: FC<UmlComponentEditorProps> = ({ initialData, name, libraryIt
       }}
       onLibraryChange={(libraryItems) => {
         if (
-          JSON.stringify(libraryItems) ==
+          JSON.stringify(libraryItems) ===
           JSON.stringify(libraryItemsRef.current)
         ) {
           return

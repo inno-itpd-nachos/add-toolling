@@ -1,10 +1,8 @@
 import {
   serializeAsJSON,
-  //  exportToSvg,
-  //  exportToBlob,
 } from "@excalidraw/excalidraw"
 import {vscodeMock} from './mock'
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types"
+import type { FileContent, FileContentD, FileContentE } from "types/content"
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
@@ -15,79 +13,43 @@ export const vscode = isVsCode ? acquireVsCodeApi() : vscodeMock()
 
 const textEncoder = new TextEncoder()
 
-// const svg2VSCode = async (
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   elements: readonly any[],
-//   appState: Partial<AppState>,
-//   files: BinaryFiles
-// ) => {
-//   const svg = await exportToSvg({
-//     elements,
-//     appState,
-//     files,
-//   })
-//   vscode.postMessage({
-//     type: "change",
-//     content: Array.from(textEncoder.encode(svg.outerHTML)),
-//   })
-// }
-
-// const png2VSCode = async (
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   elements: readonly any[],
-//   appState: Partial<AppState>,
-//   files: BinaryFiles
-// ) => {
-//   const blob = await exportToBlob({
-//     elements,
-//     appState,
-//     files,
-//     getDimensions(width: number, height: number) {
-//       const scale = appState.exportScale || 2
-//       return {
-//         width: width * scale,
-//         height: height * scale,
-//         scale,
-//       }
-//     },
-//   })
-//   if (!blob) {
-//     vscode.postMessage({
-//       type: "error",
-//       content: "Failed to export",
-//     })
-//     return
-//   }
-//   const arrayBuffer = await blob.arrayBuffer()
-//   vscode.postMessage({
-//     type: "change",
-//     content: Array.from(new Uint8Array(arrayBuffer)),
-//   })
-// }
-
-const json2VSCode = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  elements: readonly any[],
-  appState: Partial<AppState>,
-  files: BinaryFiles
+const json2VsCode = (
+  content: FileContent
 ) => {
+  if ('excalidraw' in content.drawer) {
+    // TS не может сходить на уровень выше в content, но обновляет drawer
+    return json2VSCodeExcalidraw(content as FileContentE)
+  }
+
+  return json2VSCodeDrawio(content as FileContentD)
+}
+
+const json2VSCodeExcalidraw = (
+  content: FileContentE
+) => {
+  const {elements, appState, files} = content.drawer.excalidraw
+  const excalidraw = serializeAsJSON(elements, appState, files || {}, "local")
+
+  const json = JSON.stringify(content, (k, v) => k === 'excalidraw' ? '{{REPLACE}}' : v, 2)
+  
   vscode.postMessage({
     type: "change",
     content: Array.from(
-      textEncoder.encode(serializeAsJSON(elements, appState, files, "local"))
+      textEncoder.encode(json.replace('"{{REPLACE}}"', excalidraw))
     ),
   })
 }
 
+const json2VSCodeDrawio = (_content: FileContentD) => {
+  vscode.postMessage({
+    type: 'error',
+    message: 'Drawio is not implemented, but change is intended'
+  })
+}
+
 export const sendChangesToVSCode = (contentType: string) => {
-  //   if (contentType === "image/svg+xml") {
-  //     return svg2VSCode
-  //   }
-  //   if (contentType === "image/png") {
-  //     return png2VSCode
-  //   }
   if (contentType === "application/json") {
-    return json2VSCode
+    return json2VsCode
   }
   throw new Error(`Unsupported content type: ${contentType}`)
 }

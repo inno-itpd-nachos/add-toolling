@@ -1,3 +1,4 @@
+import type { ExcalidrawElement } from "@excalidraw/excalidraw/element/types"
 import type { AppState, BinaryFiles, ExcalidrawInitialDataState, LibraryItems } from "@excalidraw/excalidraw/types"
 
 export type UmlComponentEditorProps = {
@@ -7,7 +8,7 @@ export type UmlComponentEditorProps = {
   dirty: boolean;
   viewModeEnabled: boolean
   onChange: (
-    elements: readonly unknown[],
+    elements: readonly ExcalidrawElement[],
     appState: Partial<AppState>,
     files?: BinaryFiles
   ) => void

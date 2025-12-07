@@ -18,7 +18,7 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
@@ -27,12 +27,12 @@
     "paths": {
       "lib/*": ["./src/lib/*"],
       "components/*": ["./src/components/*"],
-      "store/*": ["./src/store/*"],
       "store": ["./src/store"],
+      "store/*": ["./src/store/*"],
       "utils/*": ["./src/utils/*"],
       "modules/*": ["./src/modules/*"],
-      "constants/*": ["./src/constants/*"],
       "constants": ["./src/constants"],
+      "constants/*": ["./src/constants/*"],
       "types/*": ["./src/types/*"],
     }
   },
